@@ -56,6 +56,17 @@ Events.onStepTaken+=proc{
   end
 }
 
+Events.onMapUpdate+=proc {|sender,e|
+  next if !$Trainer || !$PokemonBag
+  next if $game_switches[:All_TMs_AutoGrant_Done]
+  tm_items = ITEMHASH.keys.select {|item| item.to_s.match?(/^TM\d+$/) }
+  tm_items.each {|item|
+    $PokemonBag.pbStoreItem(item,1)
+  }
+  $game_switches[:All_TMs_AutoGrant_Done] = true
+  Kernel.pbMessage('\\PN received every TM.')
+}
+
 Events.onWildPokemonCreate+=proc {|sender,e|
   pokemon=e[0]
   check = rand(100)

@@ -1,0 +1,9 @@
+game:
+    name: Rejuvenation
+    url: null
+    version: 13.5.7
+    version_url: https://www.rebornevo.com/downloads/rebornremote/Rejuvenation/version
+    patch_url: https://www.rebornevo.com/downloads/rebornremote/Rejuvenation/patch.zip
+    format: zip
+    password: null
+mods: []

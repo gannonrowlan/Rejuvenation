@@ -77,6 +77,16 @@ def addPassword(entrytext)
     end
   end
   
+  def pbGiveAllTMs
+    return 0 if !$PokemonBag
+    tm_items = ITEMHASH.select {|_, item_data| item_data[:tm] }.keys
+    added_count = 0
+    tm_items.each do |item|
+      added_count += 1 if $PokemonBag.pbStoreItem(item, 1)
+    end
+    return added_count
+  end
+
   #########################################################################
   # Passwords menu                                                        #
   #########################################################################
@@ -231,6 +241,12 @@ def addPassword(entrytext)
     password_string=password.downcase()
     one_way_passwords = ['fullivs','easyhms','nohms','hmitems','notmxneeded','freemegaz','shinycharm','earlyshiny','freeexpall','freeremotepc','hello eizen.','mintyfresh','mintpack','powerpack','alltms','freetms']
     if one_way_passwords.include?(password_string) && checkPasswordActivation(password_string)
+      if ['alltms', 'freetms'].include?(password_string)
+        added_tms = pbGiveAllTMs
+        if added_tms > 0
+          Kernel.pbMessage(_INTL('\PN received every TM.'))
+        end
+      end
       Kernel.pbMessage(_INTL('This password is already enabled and cannot be disabled anymore.'))
       return false
     end
@@ -347,10 +363,7 @@ def addPassword(entrytext)
       }
       Kernel.pbMessage('\PN received a package of EV-training gear.')
     elsif ['alltms', 'freetms'].include?(password_string)
-      items_to_give = ITEMHASH.select {|_,item_data| item_data[:tm] }.keys
-      items_to_give.each {|item|
-        $PokemonBag.pbStoreItem(item,1)
-      }
+      pbGiveAllTMs
       Kernel.pbMessage('\PN received every TM.')
     end
     #pbMonoRandEvents

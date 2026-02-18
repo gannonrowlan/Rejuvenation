@@ -757,7 +757,6 @@ class PokemonLoad
     end
     getNGPData
     $PokemonBag.initTrackerData if !$PokemonBag.itemtracker
-    pbGrantAllTMsAsItems
 
     if $PokemonGlobal.safesave
       if pbMapInterpreterRunning?
@@ -804,16 +803,6 @@ class PokemonLoad
     $scene = Scene_Map.new
     $game_player.center($game_player.x, $game_player.y)
     return true
-  end
-end
-
-def pbGrantAllTMsAsItems
-  return if !$PokemonBag || !$cache || !$cache.items
-  for item in 0...$cache.items.length
-    next if !$cache.items[item]
-    next if !pbIsTM?(item)
-    next if $PokemonBag.pbHasItem?(item)
-    $PokemonBag.pbStoreItem(item,1)
   end
 end
 

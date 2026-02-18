@@ -340,7 +340,7 @@ def addPassword(entrytext)
       }
       Kernel.pbMessage('\PN received a package of EV-training gear.')
     elsif ['alltms', 'freetms'].include?(password_string)
-      items_to_give = ITEMHASH.keys.select {|item| item.to_s.match?(/^TM\d+$/) }
+      items_to_give = ITEMHASH.select {|_,item_data| item_data[:tm] }.keys
       items_to_give.each {|item|
         $PokemonBag.pbStoreItem(item,1)
       }

@@ -57,9 +57,9 @@ Events.onStepTaken+=proc{
 }
 
 Events.onMapUpdate+=proc {|sender,e|
-  next if !$Trainer || !$PokemonBag
+  next if !$Trainer || !$PokemonBag || !$cache || !$cache.items
   next if $game_switches[:All_TMs_AutoGrant_Done]
-  tm_items = ITEMHASH.keys.select {|item| item.to_s.match?(/^TM\d+$/) }
+  tm_items = $cache.items.keys.select {|item| pbIsTM?(item) }
   tm_items.each {|item|
     $PokemonBag.pbStoreItem(item,1)
   }

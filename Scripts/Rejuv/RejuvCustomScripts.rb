@@ -56,17 +56,6 @@ Events.onStepTaken+=proc{
   end
 }
 
-Events.onMapUpdate+=proc {|sender,e|
-  next if !$Trainer || !$PokemonBag || !$PokemonGlobal || !$cache || !$cache.items
-  next if $PokemonGlobal.instance_variable_get(:@all_tms_auto_grant_done)
-  tm_items = $cache.items.keys.select {|item| pbIsTM?(item) }
-  tm_items.each {|item|
-    $PokemonBag.pbStoreItem(item,1)
-  }
-  $PokemonGlobal.instance_variable_set(:@all_tms_auto_grant_done,true)
-  Kernel.pbMessage('\PN received every TM.')
-}
-
 Events.onWildPokemonCreate+=proc {|sender,e|
   pokemon=e[0]
   check = rand(100)

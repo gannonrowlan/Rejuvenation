@@ -229,7 +229,8 @@ def addPassword(entrytext)
   
   def pbTogglePassword(password, isGameStart=false)
     password_string=password.downcase()
-    if ['fullivs','easyhms','nohms','hmitems','notmxneeded','freemegaz','shinycharm','earlyshiny','freeexpall','freeremotepc','hello eizen.','mintyfresh','mintpack','powerpack','alltms','freetms'].include?(password_string) && checkPasswordActivation(password_string)
+    one_way_passwords = ['fullivs','easyhms','nohms','hmitems','notmxneeded','freemegaz','shinycharm','earlyshiny','freeexpall','freeremotepc','hello eizen.','mintyfresh','mintpack','powerpack','alltms','freetms']
+    if one_way_passwords.include?(password_string) && checkPasswordActivation(password_string)
       Kernel.pbMessage(_INTL('This password is already enabled and cannot be disabled anymore.'))
       return false
     end
@@ -242,6 +243,12 @@ def addPassword(entrytext)
     if $game_switches[:PasswordFail]
       # It should never actually get to this section anymore...
       Kernel.pbMessage('That is not a password.')
+      return false
+    end
+    if one_way_passwords.include?(password_string) && !checkPasswordActivation(password_string)
+      id = PASSWORD_HASH[password_string]
+      $game_switches[id] = true if id
+      Kernel.pbMessage(_INTL('This password is already enabled and cannot be disabled anymore.'))
       return false
     end
     if !checkPasswordActivation(password_string)
